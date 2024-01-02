@@ -1,84 +1,22 @@
-require('plugins')
-require('theme')
-require('opts')
-require('keys')
-require('lsp')
-require('tabs')
+-- Lazy requires mapleader to be set before everything
+vim.g.mapleader = " "
 
--- Treesitter (syntax highlighting)
-require('nvim-treesitter.configs').setup {
-    ensure_installed = {
-        "lua",
-        "rust",
-        "toml",
-        "yaml",
-        "python",
-        "typescript",
-        "javascript",
-        "terraform",
-        "dockerfile",
-        "sql"
-    },
-    auto_install = true,
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
-}
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
--- Tree
-require("neo-tree").setup({
-    buffers = {
-        follow_current_file = {
-            enabled = true,
-            leave_dirs_open = false,
-        },
-    },
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
+end
 
-    filesystem = {
-        filtered_items = {
-            always_show = {
-                ".gitignore",
-                ".env",
-                ".github",
-                ".sqlfluff"
-            }
-        }
-    }
-})
--- Diagnostics
-require("trouble").setup({})
+vim.opt.rtp:prepend(lazypath)
 
--- Telescope
-require("telescope").setup {
-    extensions = {
-        fzf = {
-            fuzzy = true,
-            override_generic_sorter = true,
-            override_file_sorter = true,
-            case_mode = "smart_case",
-        }
-    }
-}
-require("telescope").load_extension('fzf')
+require("lazy").setup("plugins")
 
--- Tabs
-require("barbar").setup({
-    insert_at_end = true,
-})
--- Colorful window separation
-require('colorful-winsep').setup()
-
--- Lualine
-require('lualine').setup()
-
--- NeoGit
-require('neogit').setup({
-    use_telescope = true,
-})
-
--- Which Key
-require('which-key').setup()
-
--- Inlay Hints
-require("inlay-hints").setup()
+-- Init vim configuration (remaps, sets etc...)
+require("vim-configs")
