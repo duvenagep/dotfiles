@@ -5,6 +5,7 @@ return {
             return {}
         end,
     },
+
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
@@ -17,6 +18,7 @@ return {
         },
         opts = function(_, opts)
             local cmp = require("cmp")
+
 
             opts.preselect = cmp.PreselectMode.None
 
@@ -50,6 +52,27 @@ return {
                 { name = "buffer" },
                 { name = "path" },
             })
+
+
+        -- Autocompletion: Commandline
+        cmp.setup.cmdline({ '/', '?' }, {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = {
+                { name = 'buffer' }
+            }
+        })
+
+        -- Autocompletion: Search
+        cmp.setup.cmdline(':', {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = {
+                { name = 'path' },
+                { name = 'cmdline' }
+            }
+        })
+
         end,
     },
+
+
 }
