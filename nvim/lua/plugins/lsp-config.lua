@@ -20,6 +20,12 @@ return {
                     "ruff_lsp",
                     "pylsp",
                     "rust_analyzer",
+                    "sqlls",
+                    "terraformls",
+                    "marksman",
+                    "bashls",
+                    "yamlls",
+                    "helm_ls",
                 },
             })
         end,
@@ -30,6 +36,8 @@ return {
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require("lspconfig")
+            local format_on_save = require("format-on-save")
+            local formatters = require("format-on-save.formatters")
 
             lspconfig.lua_ls.setup({
                 capabilities,
@@ -88,6 +96,23 @@ return {
                 },
             })
 
+            -- SQL
+            lspconfig.sqlls.setup({
+                capabilities,
+            })
+
+            -- Terraform
+            lspconfig.terraformls.setup({})
+
+            -- Markdown
+            lspconfig.marksman.setup({})
+
+            -- Bash
+            lspconfig.bashls.setup({})
+
+            -- Yaml
+            lspconfig.yamlls.setup({})
+
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("UserLspConfig", {}),
                 callback = function(ev)
@@ -98,16 +123,29 @@ return {
                     vim.keymap.set("n", "gr", vim.lsp.buf.references, opt)
                     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opt)
                     vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opt)
-
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt)
                     vim.keymap.set("n", "K", vim.lsp.buf.hover, opt)
-                    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opt)
                     vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opt)
                     vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opt)
-                    vim.keymap.set("n", "<leader>ff", function()
-                        vim.lsp.buf.format({ async = true })
-                    end, opt)
+
+                    -- vim.keymap.set("n", "<leader>fd", function()
+                    --     vim.lsp.buf.format({ async = true })
+                    -- end, opt)
                 end,
+            })
+
+            format_on_save.setup({
+                formatter_by_ft = {
+                    sql = formatters.lsp,
+                    json = formatters.lsp,
+                    lua = formatters.lsp,
+                    markdown = formatters.prettierd,
+                    python = formatters.lsp,
+                    rust = formatters.lsp,
+                    sh = formatters.shfmt,
+                    terraform = formatters.lsp,
+                    yaml = formatters.lsp,
+                },
             })
         end,
     },

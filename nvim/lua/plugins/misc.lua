@@ -1,4 +1,5 @@
 return {
+    -- Commentary
     {
         "tpope/vim-commentary",
     },
@@ -44,5 +45,12 @@ return {
             { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
             { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
         },
+    },
+
+    -- Colour Window Pane Highlights
+    {
+      "nvim-zh/colorful-winsep.nvim",
+      config = true,
+      event = { "WinNew" },
     }
 }

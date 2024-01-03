@@ -11,34 +11,18 @@ return {
             -- animation = true,
             -- insert_at_start = true,
             -- …etc.
+            -- Set the filetypes which barbar will offset itself for
+            sidebar_filetypes = {
+            -- Use the default values: {event = 'BufWinLeave', text = nil}
+            -- NvimTree = true,
+            -- Or, specify the text used for the offset:
+            -- undotree = {text = 'undotree'},
+            -- Or, specify the event which the sidebar executes when leaving:
+            ['neo-tree'] = {event = 'BufWipeout'},
+            -- Or, specify both
+            -- Outline = {event = 'BufWinLeave', text = 'symbols-outline'},
+            },
         },
         version = '^1.0.0', -- optional: only update when a new 1.x version is released
-
--- -- Tabs config
--- local filetreename = 'neo-tree'
--- local function get_filetree_window()
---     for _, windowId in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
---         local buffer = vim.api.nvim_win_get_buf(windowId)
---         if vim.api.nvim_buf_get_option(buffer, 'ft') == filetreename then
---             return windowId
---         end
---     end
---     return nil
--- end
-
--- local function get_filetree_width()
---     local windowId = get_filetree_window()
---     if windowId == nil then return end
---     return vim.fn.winwidth(windowId)
--- end
-
--- vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinScrolled', 'BufWinLeave', 'BufWipeout' }, {
---     callback = function()
---         local width = get_filetree_width()
-
---         require('barbar.api').set_offset(width or 0)
---     end
--- })
     },
-
 }
