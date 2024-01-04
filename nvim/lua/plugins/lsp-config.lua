@@ -36,8 +36,6 @@ return {
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require("lspconfig")
-            local format_on_save = require("format-on-save")
-            local formatters = require("format-on-save.formatters")
 
             lspconfig.lua_ls.setup({
                 capabilities,
@@ -128,24 +126,20 @@ return {
                     vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opt)
                     vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opt)
 
-                    -- vim.keymap.set("n", "<leader>fd", function()
-                    --     vim.lsp.buf.format({ async = true })
-                    -- end, opt)
-                end,
-            })
+                    vim.keymap.set("n", "<leader>fd", function()
+                        vim.lsp.buf.format({ async = true })
+                    end, opt)
 
-            format_on_save.setup({
-                formatter_by_ft = {
-                    sql = formatters.lsp,
-                    json = formatters.lsp,
-                    lua = formatters.lsp,
-                    markdown = formatters.prettierd,
-                    python = formatters.lsp,
-                    rust = formatters.lsp,
-                    sh = formatters.shfmt,
-                    terraform = formatters.lsp,
-                    yaml = formatters.lsp,
-                },
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        buffer = opt.buffer,
+                        callback = function()
+                            -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+                            -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
+                            -- vim.lsp.buf.formatting_sync()
+                            vim.lsp.buf.format({ async = false })
+                        end,
+                    })
+                end,
             })
         end,
     },
