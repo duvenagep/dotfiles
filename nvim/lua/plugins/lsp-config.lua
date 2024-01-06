@@ -37,6 +37,7 @@ return {
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require("lspconfig")
 
+            -- Lua
             lspconfig.lua_ls.setup({
                 capabilities,
             })
@@ -141,6 +142,19 @@ return {
                     })
                 end,
             })
+        end,
+    },
+
+    {
+
+        "neovim/nvim-lspconfig",
+        config = function()
+            local lspconfig = require("lspconfig")
+            vim.cmd [[ autocmd BufRead,BufNewFile *.slint set filetype=slint ]]
+            lspconfig.slint_lsp.setup({})
+            -- vim.api.nvim_create_autocmd("LspAttch", {
+            --     lspconfig.slint_lsp.setup({}),
+            -- })
         end,
     },
 }
