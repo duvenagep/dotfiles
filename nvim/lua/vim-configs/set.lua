@@ -43,13 +43,13 @@ vim.opt.updatetime = 50
 
 -- Show spaces
 vim.opt.list = true
-vim.opt.lcs = "space:·"
+vim.opt.listchars = "tab:→ ,space:·"
 
 -- Autocompletion
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- GitBlame
-vim.g.gitblame_date_format = '%r'
+vim.g.gitblame_date_format = "%r"
 
 -- Which Key
 vim.o.timeout = true
