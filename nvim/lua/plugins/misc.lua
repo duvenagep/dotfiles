@@ -49,8 +49,21 @@ return {
 
     -- Colour Window Pane Highlights
     {
-      "nvim-zh/colorful-winsep.nvim",
-      config = true,
-      event = { "WinNew" },
-    }
+        "nvim-zh/colorful-winsep.nvim",
+        config = true,
+        event = { "WinNew" },
+    },
+
+    --codeium AI AutoComplete
+    -- {
+    --     "Exafunction/codeium.nvim",
+    --     dependencies = {
+    --         "nvim-lua/plenary.nvim",
+    --         "hrsh7th/nvim-cmp",
+    --     },
+    --     config = function()
+    --         require("codeium").setup({
+    --         })
+    --     end
+    -- },
 }
