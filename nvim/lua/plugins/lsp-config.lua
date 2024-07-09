@@ -1,155 +1,147 @@
 local function disableFmtProvider(client)
-    client.server_capabilities.documentFormattingProvider = false
+	client.server_capabilities.documentFormattingProvider = false
 end
 
 return {
-    -- Installs all lsps
-    {
-        "williamboman/mason.nvim",
-        config = function()
-            require("mason").setup()
-        end,
-    },
-    -- Bridges gap between mason and nvim--lspconfig
-    {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = {
-            "williamboman/mason.nvim",
-        },
-        config = function()
-            require("mason-lspconfig").setup({
-                ensure_installed = {
-                    "lua_ls",
-                    "ruff_lsp",
-                    "pylsp",
-                    "rust_analyzer",
-                    "sqlls",
-                    "terraformls",
-                    "marksman",
-                    "bashls",
-                    "yamlls",
-                    "helm_ls",
-                    "slint_lsp",
-                },
-            })
-        end,
-    },
-    -- Setup lsp keymaps
-    {
-        "neovim/nvim-lspconfig",
-        config = function()
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            local lspconfig = require("lspconfig")
+	-- Installs all lsps
+	{
+		"williamboman/mason.nvim",
+		config = function()
+			require("mason").setup()
+		end,
+	},
+	-- Bridges gap between mason and nvim--lspconfig
+	{
+		"williamboman/mason-lspconfig.nvim",
+		dependencies = {
+			"williamboman/mason.nvim",
+		},
+		config = function()
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					"lua_ls",
+					"ruff_lsp",
+					"rust_analyzer",
+					"jedi_language_server",
+					"sqlls",
+					"terraformls",
+					"marksman",
+					"bashls",
+					"yamlls",
+					"helm_ls",
+					"slint_lsp",
+				},
+			})
+		end,
+	},
+	-- Setup lsp keymaps
+	{
+		"neovim/nvim-lspconfig",
+		config = function()
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local lspconfig = require("lspconfig")
 
-            -- Lua
-            lspconfig.lua_ls.setup({
-                capabilities,
-            })
+			-- Lua
+			lspconfig.lua_ls.setup({
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = {
+								"vim",
+							},
+						},
+					},
+				},
+			})
 
-            -- Python
-            lspconfig.ruff_lsp.setup({
-                capabilities,
-                init_options = {
-                    settings = {
-                        args = {
-                            "--extend-select",
-                            "E",
-                            "--extend-select",
-                            "F",
-                            "--extend-select",
-                            "W",
-                        },
-                    },
-                },
-            })
-            lspconfig.pylsp.setup({
-                capabilities,
-                settings = {
-                    pylsp = {
-                        plugins = {
-                            plugins = {
-                                pycodestyle = {
-                                    enabled = false,
-                                },
-                                flake8 = {
-                                    enabled = false,
-                                },
-                            },
-                        },
-                    },
-                },
-            })
+			-- Python
+			lspconfig.ruff_lsp.setup({
+				capabilities,
+				init_options = {
+					settings = {
+						args = {
+							"--extend-select",
+							"E",
+							"--extend-select",
+							"F",
+							"--extend-select",
+							"W",
+						},
+					},
+				},
+			})
 
-            -- Rust
-            lspconfig.rust_analyzer.setup({
-                capabilities,
-                assist = {
-                    importEnforceGranularity = true,
-                    importPrefix = "crate",
-                },
-                cargo = {
-                    allFeatures = true,
-                },
-                inlayHints = { locationLinks = false },
-                diagnostics = {
-                    enable = true,
-                    experimental = {
-                        enable = true,
-                    },
-                },
-            })
+			lspconfig.jedi_language_server.setup({}) -- used only for Go To Definition capabilities
 
-            -- SQL
-            lspconfig.sqlls.setup({
-                capabilities,
-            })
+			-- Rust
+			lspconfig.rust_analyzer.setup({
+				capabilities,
+				assist = {
+					importEnforceGranularity = true,
+					importPrefix = "crate",
+				},
+				cargo = {
+					allFeatures = true,
+				},
+				inlayHints = { locationLinks = false },
+				diagnostics = {
+					enable = true,
+					experimental = {
+						enable = true,
+					},
+				},
+			})
 
-            -- Terraform
-            lspconfig.terraformls.setup({})
+			-- SQL
+			lspconfig.sqlls.setup({
+				capabilities,
+			})
 
-            -- Markdown
-            lspconfig.marksman.setup({})
+			-- Terraform
+			lspconfig.terraformls.setup({})
 
-            -- Bash
-            lspconfig.bashls.setup({})
+			-- Markdown
+			lspconfig.marksman.setup({})
 
-            -- Yaml
-            lspconfig.yamlls.setup({})
+			-- Bash
+			lspconfig.bashls.setup({})
 
-            vim.api.nvim_create_autocmd("LspAttach", {
-                group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-                callback = function(ev)
-                    vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+			-- Yaml
+			lspconfig.yamlls.setup({})
 
-                    local opt = { buffer = ev.buf }
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+				callback = function(ev)
+					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-                    vim.keymap.set("n", "gr", vim.lsp.buf.references, opt)
-                    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opt)
-                    vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opt)
-                    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt)
-                    vim.keymap.set("n", "K", vim.lsp.buf.hover, opt)
-                    vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opt)
-                    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opt)
+					local opt = { buffer = ev.buf }
 
-                    vim.keymap.set("n", "<leader>fd", function()
-                        vim.lsp.buf.format({ async = true })
-                    end, opt)
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, opt)
+					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opt)
+					vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opt)
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt)
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, opt)
+					vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opt)
+					vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opt)
 
-                    vim.api.nvim_create_autocmd("BufWritePre", {
-                        buffer = opt.buffer,
-                        callback = function()
-                            -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-                            -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
-                            -- vim.lsp.buf.formatting_sync()
-                            vim.lsp.buf.format({ async = false })
-                        end,
-                    })
-                end,
-            })
+					vim.keymap.set("n", "<leader>fd", function()
+						require("conform").format({ bufnr = ev.buf, lsp_fallback = true, async = true })
+						-- vim.lsp.buf.format({ async = true })
+					end, opt)
+				end,
+			})
 
-            -- Slint
-            vim.cmd([[ autocmd BufRead,BufNewFile *.slint set filetype=slint ]])
-            lspconfig.slint_lsp.setup({})
-        end,
-    },
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				pattern = "*",
+				callback = function(args)
+					require("conform").format({ bufnr = args.buf })
+					-- vim.lsp.buf.format({ async = false })
+				end,
+			})
+
+			-- Slint
+			vim.cmd([[ autocmd BufRead,BufNewFile *.slint set filetype=slint ]])
+			lspconfig.slint_lsp.setup({})
+		end,
+	},
 }

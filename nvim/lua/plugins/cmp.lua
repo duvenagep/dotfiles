@@ -51,13 +51,14 @@ return {
 				["<C-e>"] = cmp.mapping.abort(),
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
 			})
-
 			opts.sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
+				{ name = "codeium" },
 			}, {
 				{ name = "buffer" },
 				{ name = "path" },
+				{ name = "codeium" },
 			})
 
 			-- Autocompletion: Commandline
