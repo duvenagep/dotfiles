@@ -23,7 +23,7 @@ return {
 					".gitignore",
 					".env",
 					".github",
-					".sqlfluff",
+					"*.sqlfluff",
 					".tmux.conf",
 					".luarc.json",
 					".sqllsrc.json",
