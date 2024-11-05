@@ -1,9 +1,9 @@
 local function map(mode, lhs, rhs, opts)
-    local options = { noremap = true }
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+	local options = { noremap = true }
+	if opts then
+		options = vim.tbl_extend("force", options, opts)
+	end
+	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
 --Split
@@ -159,8 +159,8 @@ map("n", "<Leader>go", "<cmd>Neogit<cr>")
 map("n", "q", "<Nop>")
 
 -- Resize panels
-map("n", "<S-F9>", "<Cmd>5 winc <<CR>")  -- decrease width
+map("n", "<S-F9>", "<Cmd>5 winc <<CR>") -- decrease width
 map("n", "<S-F10>", "<Cmd>5 winc +<CR>") -- increase width
 map("n", "<S-F11>", "<Cmd>5 winc -<CR>") -- decrease height
 map("n", "<S-F12>", "<Cmd>5 winc ><CR>") -- increase height
-map("n", "<S-F8>", "<Cmd>winc =<CR>")    -- reset all
+map("n", "<S-F8>", "<Cmd>winc =<CR>") -- reset all

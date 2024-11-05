@@ -43,7 +43,7 @@ vim.opt.updatetime = 50
 
 -- Show spaces
 vim.opt.list = true
-vim.opt.listchars = "tab:→ ,space:·"
+vim.opt.listchars = "tab:··,space:·"
 
 -- Autocompletion
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
