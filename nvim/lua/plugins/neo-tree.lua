@@ -30,8 +30,23 @@ return {
 					".test.yaml",
 					".production.yaml",
 					"dbt/target/*",
+					".cargo",
 				},
 			},
+		},
+		git_status = {
+			symbols = {
+				added = "✚",
+				deleted = "✖",
+				modified = "",
+				renamed = "󰁕",
+				untracked = "",
+				ignored = "",
+				unstaged = "󰄱",
+				staged = "",
+				conflict = "",
+			},
+			align = "right",
 		},
 	}),
 }
