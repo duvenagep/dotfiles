@@ -165,13 +165,26 @@ return {
 			-- Autoformatting Setup with Conform
 			require("conform").setup({
 				formatters = {
-					sqlfluff = {
-						command = "sqlfluff",
+					-- sqlfluff = {
+					-- 	command = "sqlfluff",
+					-- 	stdin = true,
+					-- 	args = {
+					-- 		"format",
+					-- 		"--dialect",
+					-- 		"redshift",
+					-- 		"--config",
+					-- 		"/Users/"
+					-- 			.. (os.getenv("USER") or os.getenv("USERNAME"))
+					-- 			.. "/Documents/Check/data/.sqlfluff",
+					-- 		"-",
+					-- 	},
+					-- },
+					sqruff = {
+						command = "sqruff",
 						stdin = true,
 						args = {
-							"format",
-							"--dialect",
-							"redshift",
+							"fix",
+							"--force",
 							"--config",
 							"/Users/"
 								.. (os.getenv("USER") or os.getenv("USERNAME"))
@@ -182,7 +195,8 @@ return {
 				},
 				formatters_by_ft = {
 					lua = { "stylua" },
-					sql = { "sqlfluff" },
+					-- sql = { "sqlfluff" },
+					sql = { "sqruff" },
 					python = { "ruff_format", "ruff_organize_imports", "ruff_fix" },
 				},
 			})
