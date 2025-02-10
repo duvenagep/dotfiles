@@ -40,6 +40,8 @@ return {
 				},
 
 				rust_analyzer = true,
+				terraformls = true,
+				helm_ls = true,
 
 				pyright = {
 					settings = {
@@ -179,10 +181,24 @@ return {
 							"-",
 						},
 					},
+					-- sqruff = {
+					-- 	command = "sqruff",
+					-- 	stdin = true,
+					-- 	args = {
+					-- 		"fix",
+					-- 		"--force",
+					-- 		"--config",
+					-- 		"/Users/"
+					-- 			.. (os.getenv("USER") or os.getenv("USERNAME"))
+					-- 			.. "/Documents/Check/data/.sqlfluff",
+					-- 		"-",
+					-- 	},
+					-- },
 				},
 				formatters_by_ft = {
 					lua = { "stylua" },
 					sql = { "sqlfluff" },
+					-- sql = { "sqruff" },
 					python = { "ruff_format", "ruff_organize_imports", "ruff_fix" },
 				},
 			})
