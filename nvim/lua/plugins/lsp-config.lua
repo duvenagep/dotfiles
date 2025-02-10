@@ -40,6 +40,8 @@ return {
 				},
 
 				rust_analyzer = true,
+				terraformls = true,
+				helm_ls = true,
 
 				pyright = {
 					settings = {
@@ -165,26 +167,13 @@ return {
 			-- Autoformatting Setup with Conform
 			require("conform").setup({
 				formatters = {
-					-- sqlfluff = {
-					-- 	command = "sqlfluff",
-					-- 	stdin = true,
-					-- 	args = {
-					-- 		"format",
-					-- 		"--dialect",
-					-- 		"redshift",
-					-- 		"--config",
-					-- 		"/Users/"
-					-- 			.. (os.getenv("USER") or os.getenv("USERNAME"))
-					-- 			.. "/Documents/Check/data/.sqlfluff",
-					-- 		"-",
-					-- 	},
-					-- },
-					sqruff = {
-						command = "sqruff",
+					sqlfluff = {
+						command = "sqlfluff",
 						stdin = true,
 						args = {
-							"fix",
-							"--force",
+							"format",
+							"--dialect",
+							"redshift",
 							"--config",
 							"/Users/"
 								.. (os.getenv("USER") or os.getenv("USERNAME"))
@@ -192,11 +181,24 @@ return {
 							"-",
 						},
 					},
+					-- sqruff = {
+					-- 	command = "sqruff",
+					-- 	stdin = true,
+					-- 	args = {
+					-- 		"fix",
+					-- 		"--force",
+					-- 		"--config",
+					-- 		"/Users/"
+					-- 			.. (os.getenv("USER") or os.getenv("USERNAME"))
+					-- 			.. "/Documents/Check/data/.sqlfluff",
+					-- 		"-",
+					-- 	},
+					-- },
 				},
 				formatters_by_ft = {
 					lua = { "stylua" },
-					-- sql = { "sqlfluff" },
-					sql = { "sqruff" },
+					sql = { "sqlfluff" },
+					-- sql = { "sqruff" },
 					python = { "ruff_format", "ruff_organize_imports", "ruff_fix" },
 				},
 			})
