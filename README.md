@@ -7,3 +7,6 @@ Configs for devtools:
 - zed
 - sqlfluff
 - dbeaver
+
+# Todo
+[] Install and setup Nix
