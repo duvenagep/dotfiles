@@ -76,5 +76,4 @@ return {
 	--         })
 	--     end
 	-- },
-	-- install without yarn or npm
 }
