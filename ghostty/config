@@ -6,7 +6,7 @@
 #font-thicken = false
 
 # theme
-#theme = dark:Catppuccin Mocha,light:Catppuccin Latte
+#theme = dark:Catppuccin Frappe,light:Catppuccin Frappe
 #fullscreen = true
 #window-decoration = none
 #window-padding-x = 10
