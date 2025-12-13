@@ -173,7 +173,7 @@ return {
 						args = {
 							"format",
 							"--dialect",
-							"redshift",
+							"clickhouse",
 							"--config",
 							"/Users/"
 								.. (os.getenv("USER") or os.getenv("USERNAME"))
