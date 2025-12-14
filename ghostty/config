@@ -7,19 +7,19 @@
 
 # theme
 #theme = dark:Catppuccin Frappe,light:Catppuccin Frappe
-#fullscreen = true
-#window-decoration = none
-#window-padding-x = 10
-#window-padding-y = 10
+fullscreen = true
+window-decoration = none
+window-padding-x = 10
+window-padding-y = 10
 
 # background image
-# background-image = ~/.config/ghostty/backgrounds/fuji.png
-# background-image-opacity = 0.5
-# background-image-position = center
-# background-image-fit = cover
+background-image = ~/.config/ghostty/backgrounds/wave.png
+background-image-opacity = 0.2
+background-image-position = center
+background-image-fit = cover
 
 # cursor
-cursor-color = #FF5F1F
+cursor-color = #89dceb
 custom-shader = shaders/cursor_blaze.glsl
 custom-shader-animation = true
 

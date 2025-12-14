@@ -26,7 +26,8 @@ return {
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
-		opts = {}, -- this is equalent to setup({}) function
+		config = true,
+		-- opts = {}, -- this is equalent to setup({}) function
 	},
 
 	{
@@ -63,17 +64,4 @@ return {
 		config = true,
 		event = { "WinNew" },
 	},
-
-	--codeium AI AutoComplete
-	-- {
-	--     "Exafunction/codeium.nvim",
-	--     dependencies = {
-	--         "nvim-lua/plenary.nvim",
-	--         "hrsh7th/nvim-cmp",
-	--     },
-	--     config = function()
-	--         require("codeium").setup({
-	--         })
-	--     end
-	-- },
 }
