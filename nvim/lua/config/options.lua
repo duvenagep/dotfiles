@@ -5,6 +5,10 @@ vim.g.mapleader = " "
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+-- Cursor line number
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
+
 -- Four space indents
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -14,8 +18,8 @@ vim.opt.expandtab = true
 -- Smarter indenting
 vim.opt.smartindent = true
 
--- Disable linewrap
-vim.opt.wrap = false
+-- Enable linewrap
+vim.opt.wrap = true
 
 -- No vim backups
 vim.opt.swapfile = false
@@ -48,9 +52,22 @@ vim.opt.listchars = "tab:··,space:·"
 -- Autocompletion
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
--- GitBlame
-vim.g.gitblame_date_format = "%r"
-
 -- Which Key
 vim.o.timeout = true
 vim.o.timeoutlen = 300
+
+-- GitBlame
+vim.g.gitblame_date_format = "%r"
+
+-- Hide "~" end of buffer indication
+vim.opt.fillchars = { eob = " " }
+
+-- Substitution panel
+vim.opt.inccommand = "split"
+
+-- Folding using treesitter
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldenable = false -- Don't fold by default
+
+vim.opt.clipboard = "unnamedplus"

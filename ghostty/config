@@ -7,16 +7,16 @@
 
 # theme
 #theme = dark:Catppuccin Frappe,light:Catppuccin Frappe
-fullscreen = true
-window-decoration = none
+fullscreen = false
+window-decoration = true
 window-padding-x = 10
 window-padding-y = 10
 
 # background image
-background-image = ~/.config/ghostty/backgrounds/wave.png
-background-image-opacity = 0.2
-background-image-position = center
-background-image-fit = cover
+# background-image = ~/.config/ghostty/backgrounds/wave.png
+# background-image-opacity = 0.2
+# background-image-position = center
+# background-image-fit = cover
 
 # cursor
 cursor-color = #89dceb

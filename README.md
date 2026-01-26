@@ -9,4 +9,5 @@ Configs for devtools:
 - dbeaver
 
 # Todo
-[] Install and setup Nix
+- [ ] Install and setup Nix
+- [ ] Brew auto downloads

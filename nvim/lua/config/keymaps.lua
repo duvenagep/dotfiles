@@ -18,13 +18,11 @@ map("v", "<C-c>", ":'<'>w !pbcopy<cr>")
 map("n", "<C-v>", ":r !pbpaste<cr>")
 
 -- Yank file path to clipboard
-map("n", "<leader>cfp", '<Cmd>let @+ = expand("%")<CR>')
-
+map("n", "<leader>cfp", '<Cmd>let @+ = expand("%")<CR>', { desc = "[c]opy [f]ile [p]ath" })
 -- Yank file name to clipboard with extention
-map("n", "<leader>cfe", '<Cmd>let @+=expand("%:t")<CR>')
-
+map("n", "<leader>cfe", '<Cmd>let @+=expand("%:t")<CR>', { desc = "[c]opy [f]ilename with [e]xtention" })
 -- Yank file name to clipboard without extention - usefull for dbt
-map("n", "<leader>cfn", '<Cmd>let @+=expand("%:t:r")<CR>')
+map("n", "<leader>cfn", '<Cmd>let @+=expand("%:t:r")<CR>', { desc = "[c]opy [f]ile [n]ame" })
 
 -- Stop search highlight
 map("n", "<leader>-", ":noh <cr>")
@@ -37,6 +35,7 @@ map("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>")
 map("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>")
 map("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>")
 map("n", "<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>")
+map("n", "<leader>fs", '<cmd>lua require("telescope.builtin").git_status()<cr>')
 
 -- Git Blame
 map("n", "<Leader>bt", "<cmd>GitBlameToggle<cr>")
@@ -46,52 +45,35 @@ map("n", "<Leader>bo", "<cmd>GitBlameOpenCommitURL<cr>")
 map("n", "<Leader>xx", "<cmd>TroubleToggle<cr>")
 
 -- LSP: Definition functions
--- vim.api.nvim_create_autocmd("LspAttach", {
--- 	desc = "LSP actions",
--- 	callback = function()
--- 		local bufmap = function(mode, lhs, rhs)
--- 			local opts = { buffer = true }
--- 			vim.keymap.set(mode, lhs, rhs, opts)
--- 		end
 
--- 		-- Displays hover information about the symbol under the cursor
--- 		bufmap("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>")
+vim.api.nvim_create_autocmd("LspAttach", {
+	desc = "LSP actions",
+	callback = function(event)
+		local bufmap = function(keys, func, desc)
+			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+		end
 
--- 		-- Jump to the definition
--- 		bufmap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>")
+		-- defaults:
+		-- https://neovim.io/doc/user/news-0.11.html#_defaults
 
--- 		-- Jump to declaration
--- 		bufmap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>")
+		bufmap("gl", vim.diagnostic.open_float, "Open Diagnostic Float")
+		bufmap("K", vim.lsp.buf.hover, "Hover Documentation")
+		bufmap("gs", vim.lsp.buf.signature_help, "Signature Documentation")
+		bufmap("gd", vim.lsp.buf.definition, "Goto definition")
+		bufmap("gD", vim.lsp.buf.declaration, "Goto Declaration")
+		bufmap("<leader>la", vim.lsp.buf.code_action, "Code Action")
+		bufmap("<leader>lr", vim.lsp.buf.rename, "Rename all references")
+		bufmap("<leader>lf", vim.lsp.buf.format, "Format")
+		bufmap("<leader>v", "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>", "Goto Definition in Vertical Split")
 
--- 		-- Lists all the implementations for the symbol under the cursor
--- 		bufmap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>")
-
--- 		-- Jumps to the definition of the type symbol
--- 		bufmap("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>")
-
--- 		-- Lists all the references
--- 		bufmap("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>")
-
--- 		-- Displays a function's signature information
--- 		bufmap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<cr>")
-
--- 		-- Renames all references to the symbol under the cursor
--- 		bufmap("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>")
-
--- 		-- Selects a code action available at the current cursor position
--- 		bufmap("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>")
--- 		bufmap("x", "<F4>", "<cmd>lua vim.lsp.buf.range_code_action()<cr>")
-
--- 		-- Show diagnostics in a floating window
--- 		bufmap("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>")
-
--- 		-- Move to the previous diagnostic
--- 		bufmap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>")
-
--- 		-- Move to the next diagnostic
--- 		bufmap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>")
--- 	end,
--- })
+		local client = vim.lsp.get_client_by_id(event.data.client_id)
+		if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+			bufmap("<leader>th", function()
+				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+			end, "[T]oggle Inlay [H]ints")
+		end
+	end,
+})
 
 -- QuickFix tab
 map("n", "<leader>qfc", "<cmd>cclose<cr>")
