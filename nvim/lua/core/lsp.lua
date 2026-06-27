@@ -9,9 +9,9 @@ vim.lsp.enable({
     "rust_analyzer",
     "terraformls",
     "ts_ls",
+    "ty",
     "vimls",
     "yamlls",
-    "ty",
     "tombi",
 })
 

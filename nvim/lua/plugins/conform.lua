@@ -9,6 +9,7 @@ return {
                 sqlfluff = {
                     command = "sqlfluff",
                     stdin = false,
+                    timeout_ms = 30000,
                     cwd = require("conform.util").root_file({
                         ".sqlfluff.cfg",
                         ".sqlfluffignore",
@@ -35,7 +36,7 @@ return {
             },
             notify_on_error = true,
             format_on_save = {
-                timeout_ms = 20000,
+                timeout_ms = 30000,
                 lsp_fallback = true,
             },
         })
