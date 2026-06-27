@@ -1,3 +1,6 @@
 zed/*
 github-copilot/*
 fish/*
+.DS_Store
+lazy-lock.json
+.env
